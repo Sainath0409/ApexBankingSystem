@@ -1,0 +1,445 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Apex Banking System - Backend Architecture & Interview Guide</title>
+<style>
+  @page {
+    size: A4;
+    margin: 18mm 16mm 18mm 16mm;
+  }
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    background: #ffffff;
+    line-height: 1.5;
+    font-size: 10pt;
+    margin: 0;
+    padding: 0;
+  }
+  .header-card {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0284c7 100%);
+    color: #ffffff;
+    padding: 24px 28px;
+    border-radius: 14px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.18);
+    color: #e0f2fe;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+  .header-title {
+    font-size: 20pt;
+    font-weight: 800;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.5px;
+  }
+  .header-subtitle {
+    font-size: 10.5pt;
+    color: #cbd5e1;
+    margin: 0;
+    font-weight: 400;
+  }
+  .meta-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 8.5pt;
+    color: #94a3b8;
+  }
+  .meta-bar span { color: #f8fafc; font-weight: 600; }
+  
+  h2 {
+    color: #0f172a;
+    font-size: 13pt;
+    font-weight: 800;
+    margin: 22px 0 10px 0;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    page-break-after: avoid;
+  }
+  h2 .num-badge {
+    background: #0284c7;
+    color: #ffffff;
+    font-size: 8pt;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 6px;
+    margin-right: 8px;
+  }
+  h3 {
+    color: #1e293b;
+    font-size: 10.5pt;
+    font-weight: 700;
+    margin: 14px 0 6px 0;
+    page-break-after: avoid;
+  }
+  p {
+    margin: 0 0 8px 0;
+    color: #334155;
+  }
+  
+  .flow-box {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-left: 4px solid #0284c7;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 9pt;
+  }
+  .step-list {
+    margin: 0;
+    padding-left: 20px;
+  }
+  .step-list li {
+    margin-bottom: 6px;
+    color: #334155;
+  }
+  .step-list li strong {
+    color: #0f172a;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 16px 0;
+    font-size: 8.5pt;
+  }
+  th {
+    background: #f1f5f9;
+    color: #0f172a;
+    font-weight: 700;
+    text-align: left;
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+  }
+  td {
+    padding: 7px 10px;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td {
+    background: #f8fafc;
+  }
+  
+  .pattern-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  }
+  .pattern-title {
+    font-weight: 700;
+    color: #0369a1;
+    font-size: 9.5pt;
+    margin-bottom: 4px;
+  }
+  
+  .code-badge {
+    font-family: Consolas, Monaco, "Courier New", monospace;
+    background: #f1f5f9;
+    color: #0f172a;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 8pt;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .qa-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    page-break-inside: avoid;
+  }
+  .qa-question {
+    color: #0f172a;
+    font-weight: 800;
+    font-size: 9.5pt;
+    margin-bottom: 6px;
+  }
+  .qa-answer {
+    background: #f0fdf4;
+    border-left: 3px solid #16a34a;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 9pt;
+    color: #166534;
+    line-height: 1.45;
+  }
+  
+  .badge {
+    display: inline-block;
+    font-size: 7.5pt;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+  .badge-blue { background: #e0f2fe; color: #0369a1; }
+  .badge-green { background: #dcfce7; color: #15803d; }
+  .badge-purple { background: #f3e8ff; color: #7e22ce; }
+  .badge-amber { background: #fef3c7; color: #b45309; }
+
+  .page-break {
+    page-break-before: always;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Header Card -->
+  <div class="header-card">
+    <div class="header-badge">Technical Interview Master Guide</div>
+    <h1 class="header-title">Apex Banking Platform</h1>
+    <p class="header-subtitle">Fullstack & Backend System Architecture, OOP Patterns, Security & MongoDB Flow</p>
+    <div class="meta-bar">
+      <div>Stack: <span>Python Flask + PyMongo + MongoDB + React Vite</span></div>
+      <div>Authentication: <span>JWT (HS256) + Salted Bcrypt</span></div>
+      <div>Author Role: <span>Fullstack / Frontend Engineer</span></div>
+    </div>
+  </div>
+
+  <!-- Section 1 -->
+  <h2><span class="num-badge">1</span> High-Level Architecture & Request Flow</h2>
+  <p>The application follows a clean <strong>Tiered REST Architecture</strong>. Here is how a request travels from the user interface down to database storage:</p>
+  
+  <div class="flow-box">
+    <strong>Example: Fund Transfer Execution (Sarah transfers ₹1,000 to David)</strong>
+    <ol class="step-list" style="margin-top: 6px;">
+      <li><strong>Frontend Trigger:</strong> User clicks <em>"Transfer"</em> in <span class="code-badge">TransferMoney.jsx</span>. The centralized API client <span class="code-badge">api.js</span> issues an HTTP POST with header <span class="code-badge">Authorization: Bearer &lt;JWT_TOKEN&gt;</span>.</li>
+      <li><strong>Routing & Application Factory:</strong> Flask receives the request on port 5000 and routes it to the <span class="code-badge">transactions_bp</span> blueprint defined in <span class="code-badge">transactions.py</span>.</li>
+      <li><strong>Security Middleware Interception:</strong> The <span class="code-badge">@token_required</span> decorator extracts the Bearer token, validates the HS256 cryptographic signature, verifies that the 5-minute session has not expired, and confirms the account is not frozen. It attaches <span class="code-badge">request.current_user</span> to the execution context.</li>
+      <li><strong>Role-Based Access Guard:</strong> The <span class="code-badge">@role_required(["customer", "manager"])</span> decorator validates permissions.</li>
+      <li><strong>Business Logic & Validation:</strong> Checks source account balance, enforces the ₹100 minimum balance for Savings accounts, applies the ₹1.50 fee for Business accounts, and verifies the destination account.</li>
+      <li><strong>Atomic Database Persistence:</strong> Performs atomic updates in MongoDB (<span class="code-badge">db.accounts</span>), creates two ledger records (<span class="code-badge">transfer_out</span> and <span class="code-badge">transfer_in</span>) in <span class="code-badge">db.transactions</span>, and records an immutable audit log in <span class="code-badge">db.audit_logs</span>.</li>
+      <li><strong>Response:</strong> Returns HTTP 200 OK with the new balance and unique transaction reference ID. The React frontend updates its local state and renders an official digital receipt.</li>
+    </ol>
+  </div>
+
+  <!-- Section 2 -->
+  <h2><span class="num-badge">2</span> Backend Modular File Structure</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">File / Path</th>
+        <th style="width: 20%;">Component Layer</th>
+        <th>Responsibility & Core Logic</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="code-badge">backend/run.py</span></td>
+        <td><span class="badge badge-blue">Entry Point</span></td>
+        <td>Reads environment port, initializes the Flask app via <span class="code-badge">create_app()</span>, and starts the server.</td>
+      </tr>
+      <tr>
+        <td><span class="code-badge">app/__init__.py</span></td>
+        <td><span class="badge badge-purple">App Factory</span></td>
+        <td>Configures CORS, registers modular blueprints, seeds initial database records, and handles global 404/500 errors.</td>
+      </tr>
+      <tr>
+        <td><span class="code-badge">app/config.py</span></td>
+        <td><span class="badge badge-amber">Config Layer</span></td>
+        <td>Encapsulates MongoDB URIs, JWT secrets, session timeout thresholds (5m/24h), and interest rates (6%/9%).</td>
+      </tr>
+      <tr>
+        <td><span class="code-badge">app/database.py</span></td>
+        <td><span class="badge badge-green">Data Layer</span></td>
+        <td>Maintains the PyMongo Singleton connection pool, manages unique database indexes, and provides testing fallbacks.</td>
+      </tr>
+      <tr>
+        <td><span class="code-badge">app/middleware.py</span></td>
+        <td><span class="badge badge-purple">Security Guard</span></td>
+        <td>Handles JWT generation/decoding, <span class="code-badge">@token_required</span> authentication, RBAC authorization, and audit logging.</td>
+      </tr>
+      <tr>
+        <td><span class="code-badge">app/routes/auth.py</span></td>
+        <td><span class="badge badge-blue">REST Controller</span></td>
+        <td>Customer and Manager registration, Bcrypt password verification, and JWT session token issuance.</td>
+      </tr>
+      <tr>
+        <td><span class="code-badge">app/routes/accounts.py</span></td>
+        <td><span class="badge badge-blue">REST Controller</span></td>
+        <td>Opening Savings/Business accounts, generating unique 6-digit account numbers, and verified beneficiary lookup.</td>
+      </tr>
+      <tr>
+        <td><span class="code-badge">app/routes/transactions.py</span></td>
+        <td><span class="badge badge-blue">REST Controller</span></td>
+        <td>Deposit, withdrawal, transfer execution, fee handling, and 12-row paginated ledger statement retrieval.</td>
+      </tr>
+      <tr>
+        <td><span class="code-badge">app/routes/manager.py</span></td>
+        <td><span class="badge badge-blue">REST Controller</span></td>
+        <td>Bank-wide liquidity metrics, account status modification (Active/Frozen/Closed), audit logs, and interest runs.</td>
+      </tr>
+      <tr>
+        <td><span class="code-badge">app/utils/seeder.py</span></td>
+        <td><span class="badge badge-green">Data Seeder</span></td>
+        <td>Populates initial demo manager/customer accounts and initial transaction history on first startup.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-break"></div>
+
+  <!-- Section 3 -->
+  <h2><span class="num-badge">3</span> Software Engineering & OOP Concepts Used</h2>
+
+  <div class="pattern-card">
+    <div class="pattern-title">1. Singleton Pattern (Connection Pool in <span class="code-badge">database.py</span>)</div>
+    <p><strong>Problem:</strong> Creating a new database connection on every request causes connection leaks, high memory usage, and socket exhaustion.</p>
+    <p><strong>Solution:</strong> The <span class="code-badge">Database</span> class stores static references (<span class="code-badge">_client</span> and <span class="code-badge">_db</span>). All parts of the backend reuse this single, thread-safe connection pool.</p>
+  </div>
+
+  <div class="pattern-card">
+    <div class="pattern-title">2. Application Factory Pattern (<span class="code-badge">create_app()</span> in <span class="code-badge">__init__.py</span>)</div>
+    <p><strong>Concept:</strong> The Flask application is instantiated dynamically inside a factory function rather than globally.</p>
+    <p><strong>Benefit:</strong> Enables seamless configuration switching between development, testing (with mocked database), and production environments.</p>
+  </div>
+
+  <div class="pattern-card">
+    <div class="pattern-title">3. Decorator Pattern / Aspect-Oriented Programming (in <span class="code-badge">middleware.py</span>)</div>
+    <p><strong>Concept:</strong> Custom Python decorators (<span class="code-badge">@token_required</span>, <span class="code-badge">@role_required</span>) wrap route functions.</p>
+    <p><strong>Benefit:</strong> Cross-cutting concerns like token verification, session timeout checks, and role enforcement are decoupled from business logic, adhering to the <em>Don't Repeat Yourself (DRY)</em> principle.</p>
+  </div>
+
+  <div class="pattern-card">
+    <div class="pattern-title">4. Encapsulation & Configuration Management (in <span class="code-badge">config.py</span>)</div>
+    <p><strong>Concept:</strong> Secrets, interest percentages, minimum balance thresholds, and database connection strings are encapsulated in the <span class="code-badge">Config</span> class and read from environment variables (<span class="code-badge">.env</span>).</p>
+  </div>
+
+  <!-- Section 4 -->
+  <h2><span class="num-badge">4</span> MongoDB Schema & Database Details</h2>
+  <p>The system utilizes <strong>MongoDB (NoSQL Document Store)</strong> for flexibility, atomic document updates, and high write throughput.</p>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Collection</th>
+        <th>Key Document Fields</th>
+        <th>Indexes & Constraints</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong><span class="code-badge">users</span></strong></td>
+        <td><span class="code-badge">_id, name, email, password_hash, role, phone, status, created_at</span></td>
+        <td><span class="badge badge-green">Unique Index</span> on <span class="code-badge">email</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="code-badge">accounts</span></strong></td>
+        <td><span class="code-badge">_id, account_number, user_id, owner_name, owner_email, account_type, balance, interest_rate, minimum_balance, transaction_fee, status</span></td>
+        <td><span class="badge badge-green">Unique Index</span> on <span class="code-badge">account_number</span><br><span class="badge badge-blue">Index</span> on <span class="code-badge">user_id</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="code-badge">transactions</span></strong></td>
+        <td><span class="code-badge">_id, transaction_id, account_number, user_id, type, amount, fee, balance_after, reference, timestamp</span></td>
+        <td><span class="badge badge-green">Unique Index</span> on <span class="code-badge">transaction_id</span><br><span class="badge badge-blue">Compound Index</span> on <span class="code-badge">timestamp (DESC)</span></td>
+      </tr>
+      <tr>
+        <td><strong><span class="code-badge">audit_logs</span></strong></td>
+        <td><span class="code-badge">_id, action, details (JSON), user_id, user_email, role, ip_address, timestamp</span></td>
+        <td><span class="badge badge-blue">Index</span> on <span class="code-badge">timestamp (DESC)</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Section 5 -->
+  <h2><span class="num-badge">5</span> Core Banking Rules & Business Logic</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Feature Area</th>
+        <th>Rules & Validation Applied</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Savings Account</strong></td>
+        <td><strong>6.0% APY</strong> annual interest. Requires <strong>₹100.00</strong> minimum initial deposit & balance. Withdrawals dropping balance below ₹100 are rejected. Zero transaction fees.</td>
+      </tr>
+      <tr>
+        <td><strong>Business Account</strong></td>
+        <td><strong>9.0% APY</strong> annual interest. No minimum balance required. Flat <strong>₹1.50 fee</strong> charged on every withdrawal and outgoing fund transfer.</td>
+      </tr>
+      <tr>
+        <td><strong>Account Statuses</strong></td>
+        <td><strong>Active</strong> (Full permissions), <strong>Frozen</strong> (All debits and credits blocked), <strong>Closed</strong> (Deactivated). Only Managers have permission to alter account status.</td>
+      </tr>
+      <tr>
+        <td><strong>Session Timeout</strong></td>
+        <td><strong>Customer Role:</strong> Strict <strong>5-minute lifetime</strong> encoded in JWT. Topbar countdown alerts at &le;20s. <strong>Manager Role:</strong> 24-hour administrative lifetime.</td>
+      </tr>
+      <tr>
+        <td><strong>Audit Compliance</strong></td>
+        <td>Every critical state change (login, transfer, account status update) writes an immutable record with IP address and JSON payload.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-break"></div>
+
+  <!-- Section 6 -->
+  <h2><span class="num-badge">6</span> Client Interview Cheat Sheet (Top Q&As)</h2>
+
+  <div class="qa-card">
+    <div class="qa-question">Q1: "Can you walk me through the backend architecture of this project?"</div>
+    <div class="qa-answer">
+      "The backend is built with Python Flask using a modular Blueprint architecture connected to MongoDB via PyMongo. We implemented the Application Factory pattern for flexible configuration, a Singleton connection pool for MongoDB, and custom middleware decorators for JWT authentication and Role-Based Access Control (RBAC). It powers multi-tier bank accounts, atomic fund transfers with fee calculations, a 5-minute customer session timeout, and an immutable compliance audit trail."
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="qa-question">Q2: "How is authentication, password security, and session management implemented?"</div>
+    <div class="qa-answer">
+      "Passwords are encrypted using Bcrypt with 12 salt rounds before database insertion. Upon login, we issue signed JSON Web Tokens (HS256) containing the user's role and expiration. Customers have a strict 5-minute session lifetime, while managers receive 24-hour access. On every API request, our <code>@token_required</code> decorator extracts the Bearer token, validates the signature, checks for expiration, and verifies the user is not suspended."
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="qa-question">Q3: "How is MongoDB structured and how do you ensure data integrity?"</div>
+    <div class="qa-answer">
+      "We use 4 primary collections: <code>users</code>, <code>accounts</code>, <code>transactions</code>, and <code>audit_logs</code>. We enforce unique indexes on emails, account numbers, and transaction IDs to guarantee data consistency. For fund transfers, we perform atomic updates using MongoDB's <code></code> operator to ensure balances remain strictly synchronized, followed by creating double-entry ledger records and audit entries."
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="qa-question">Q4: "What specific banking rules did you implement?"</div>
+    <div class="qa-answer">
+      "We implemented two specialized account types: Savings Accounts (6.0% APY, ₹100 minimum balance rule) and Business Accounts (9.0% APY, ₹1.50 per-transaction fee). We also built manager controls allowing administrators to update account statuses between Active, Frozen, and Closed, along with an automatic annual interest calculation engine."
+    </div>
+  </div>
+
+  <div class="qa-card">
+    <div class="qa-question">Q5: "How does the React frontend interact with the Flask backend?"</div>
+    <div class="qa-answer">
+      "The frontend uses a centralized API service that automatically attaches the JWT Bearer token to all outgoing requests. If a customer session expires (401 response), the frontend catches it globally, displays a slide-over expiration warning, and safely redirects the user to login."
+    </div>
+  </div>
+
+</body>
+</html>

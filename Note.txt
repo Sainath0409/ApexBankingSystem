@@ -1,0 +1,73 @@
+here i want to midify here some part 
+
+
+in clicnt part 
+1- rename all the name client to customer throught the project 
+2-add pagination to all the table with 12 row at a time then pagination all the table throught the project 
+3- in fund trasfer page add toggle side by side how you did for withdraw and deposite page like self trasfer or inter bank transfer but the process remain the same
+4- in the top bar we dont want time stam for customer /client there i want 5min reverce time count down and in 20 sec and below that make it red color and after 5 min auto logout but in 20 sec remaining time give a warning to please login again as a tooggle in right side corner 
+5- all the message need to show in the right side toggle 
+
+
+in manager part 
+
+1- account status need to be 3 active,frozen/freeze,close and manager only have the acess to do the status chnage and that chnage we can add in all account part 
+2- account type need to be 2 only saveing and business and the interst rate for saving need to be 6% and for business account 9% same for all throught the projet 
+3- in the user mangemnet on click of the user row i want a pop up with all the details with the client/customer
+4-rename the bank analytics page to home pahe and remove Disburse Batch Savings Interest this button and function by time period add the interst and and make it a traseation and make a note of audit logs
+5- remove this part 
+256-Bit Encrypted
+Manager administrative console. from the side bar throught the project 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+cd "d:\EXL\EXL Code\Fullstack Dev_plan\week one\banking_system_fullstack\backend"
+python run.py
+
+
+
+cd "d:\EXL\EXL Code\Fullstack Dev_plan\week one\banking_system_fullstack\frontend"
+npm.cmd run dev
+
+
+
+🚀 Running From the New Folder
+Start the Flask Backend:
+
+powershell
+
+
+cd "d:\EXL\EXL Code\Fullstack Dev_plan\week one\banking_system_fullstack\backend"
+python run.py
+Running on http://localhost:5000
+
+Start the React Frontend:
+
+powershell
+
+
+cd "d:\EXL\EXL Code\Fullstack Dev_plan\week one\banking_system_fullstack\frontend"
+npm run dev
+Running on http://localhost:5173
+
+Run Automated Tests:
+
+powershell
+
+
+cd "d:\EXL\EXL Code\Fullstack Dev_plan\week one\banking_system_fullstack"
+python -m pytest backend/tests
